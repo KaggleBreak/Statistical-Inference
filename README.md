@@ -14,7 +14,7 @@ Statistical-Inference Study Part1
 * 2. https://web.stanford.edu/~hastie/CASI_files/PDF/casi.pdf (영문판)
 
 
-## Part5 커리큘럼
+## Part1 커리큘럼
 |요일   |주제   |발표자   |발표자료   |비고|
 |---|---|---|---|---|
 |2019.07.03(수)|1장 알고리즘과 추론|이희재|||
