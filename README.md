@@ -3,7 +3,6 @@
 Statistical-Inference Study Part1
 
 * https://www.facebook.com/groups/databreak/
-* 스케줄 : 
 * 장소 : 판교
 * Part1는 매주 수요일
 
@@ -22,7 +21,7 @@ Statistical-Inference Study Part1
 |요일   |주제   |발표자   |발표자료   |비고|
 |---|---|---|---|---|
 |2019.07.03(수)|1장 알고리즘과 추론|이희재|||
-||2.빈도주의 추론|이상열||
+||2.빈도주의 추론|이상열|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study1/2st.pdf)|
 |2019.07.10(수)|3.베이즈 추론||||
 ||4.피셔 추론과 최대우도 추정|||
 |2019.07.17(수)|5.모수적 모델과 지수 패밀리||||
