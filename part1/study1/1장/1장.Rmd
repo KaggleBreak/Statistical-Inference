@@ -1,0 +1,244 @@
+---
+title: Collapsible Panel
+output:
+  html_document:
+    theme: flatly
+    highlight: tango
+---
+
+# 1-1.회귀예제 {.tabset .tabset-fade .tabset-pills}
+
+```{r,setup, include=FALSE}
+kidney_data = read.table(url("https://web.stanford.edu/~hastie/CASI_files/DATA/kidney.txt"),header = TRUE)
+
+library(highcharter)
+
+hchart(kidney_data,"scatter",hcaes(x=age,y=tot)) 
+
+
+lm_result = lm(tot ~ age, data=kidney_data)
+
+lm_result$fitted.values
+
+
+summary(lm_result)$coefficients[,2]
+
+
+
+lower = predict(lm_result,kidney_data,interval="confidence",level = 0.95)[,2]
+upper = predict(lm_result,kidney_data,interval="confidence",level = 0.95)[,3]
+
+
+lowess_fit = lowess(x=kidney_data$age,y=kidney_data$tot,f=1/3)$y
+
+
+kidney_data_new = data.frame(kidney_data,lm = lm_result$fitted.values,lowess_lm = lowess_fit,interval_lower = lower,interval_upper = upper)
+
+
+leukemia_big <- read.csv("http://web.stanford.edu/~hastie/CASI_files/DATA/leukemia_big.csv")
+
+
+### ALL 그룹 데이터 정리 
+
+ALL <- list()
+
+for(i in grep("ALL",colnames(leukemia_big))){
+  ALL[[i]] = leukemia_big[136,i]  
+}
+
+ALL <- unlist(ALL)
+
+### AML 그룹 데이터 정리
+
+AML <- list()
+
+for(i in grep("AML",colnames(leukemia_big))){
+  AML[[i]] = leukemia_big[136,i]  
+}
+
+AML <- unlist(AML)
+
+  
+```
+## 통계기본 공식 및 설명 
+
+통계학은 **베이즈 주의**와 **빈도주의**라는 두개의 이론이 존재하며, 이 책에서는 **알고리즘적 측면** 과 **추론적 측면**을 살펴볼 예정. 가장 기초적인 통계부분은 평균임.
+평균화는 알고리즘적 요소이며, 표준오차는 알고리즘의 정확도에 대한 추론임.
+표준오차의 경우 알고리즘인 동시에 추론의 대상이 될 수 있음.
+**추론** -> 거북이, **알고리즘** -> 토끼라면, **현대 컴퓨터 연산**의 경우 슈퍼토끼를 탄생시킴.
+이로써, 전통적인 기법에서 컴퓨터시대의 기법으로 전환되고 있음을 사례와 같이 보여줌.
+
+$$ 
+\bar{x} = \sum\limits_{i=1}^n{x_i/n}
+$$
+
+$$ 
+\hat{se} = [\sum\limits_{i=1}^n(x_i-\bar{x})^2/(n(n-1))]^{1/2}
+$$
+
+## 회귀공식 및 예제 
+
+x와 Y의 회귀분석관련 최소제곱법을 활용한 공식은 아래와 같습니다. 회귀의 예제로 건강한 지원자 157명을 관찰한 데이터로 x는 지원자의 age이며, y는 신장기능의 수준을 나타내는 복합척도인 tot임. 
+
+$$
+y = \hat{\beta}_0 + \hat{\beta}_1x
+$$
+$$
+\sum\limits_{i=1}^n (y_i - \beta_0 - \beta_1x_i)^2
+$$
+
+
+
+## Fig1. age vs tot regression
+
+1800년대 초반 가우스와 르장드르에 의해 개발된 최소제곱법알고리즘으로 계산한 결과값은 beta0는 2.86이고 beta1은-0.079이다. Fig1.의 수직선은 +-2 표준오차 이내로서 각 age에서 tot 기대값이 참일 확률이 95%를 의미함.
+
+
+```{r, echo = FALSE, eval = TRUE}
+library(highcharter)
+
+highchart() %>%
+  hc_add_series(kidney_data_new, "scatter", hcaes(x=age,y=tot),showInLegend = FALSE) %>% 
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = lm),showInLegend = FALSE) %>%
+  #hc_add_series(kidney_data_new, "line", hcaes(x = age, y = lowess_fit),showInLegend = FALSE)  %>%
+  #hc_add_series(kidney_data_new, "line", hcaes(x = age, y = interval_lower),showInLegend = FALSE) %>% 
+  hc_add_series(subset(kidney_data_new,(age == 20 | age == 30 | age == 40 | age == 50 | age == 60 | age == 70 | age == 80)), "errorbar", hcaes(x = age, y = lm,low = interval_lower, high = interval_upper),showInLegend = FALSE)
+```
+
+## Fig2. regression vs lowess
+
+최신 컴퓨터기반의 알고리즘인 lowess는 약간 구부러진 회귀곡선을 만들었다. x축을 따라가며 지역 다항 곡선의 차수를 달리하면서 인접한(x,y) 점에 대해 적합화 한다. 즉, x축을 따라 반복하면서 이상치의 영향을 줄여가며 적합화를 개선해 간다. 하지만, lowess 곡선의 정확도를 측정할 수 있는 공식 같은 것은 없어, 붓스트랩을 사용하여 오차선을 계산함. 
+
+
+```{r, echo = FALSE, eval = TRUE}
+library(highcharter)
+
+
+highchart() %>%
+  hc_add_series(kidney_data_new, "scatter", hcaes(x=age,y=tot),showInLegend = FALSE) %>% 
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = lm),showInLegend = FALSE) %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = lowess_fit),showInLegend = FALSE) # %>%
+  #hc_add_series(kidney_data_new, "line", hcaes(x = age, y = interval_lower),showInLegend = FALSE) %>% 
+  #hc_add_series(subset(kidney_data_new,(age == 20 | age == 30 | age == 40 | age == 50 | age == 60 | age == 70 | age == 80)), "errorbar", hcaes(x = age, y = lm,low = interval_lower, high = interval_upper),showInLegend = FALSE)
+  #hc_xAxis(plotlines = list(list(from = 0.8800484, to = 1.696469)))
+
+```
+
+
+## Fig3. bootstrap lowess
+
+총 157개의 데이터를 복원추출 방식을 통하여 25개의 그림을 그린 결과입니다.
+
+```{r, echo = FALSE, eval = TRUE}
+library(highcharter)
+
+
+### Bootstraping ####   
+bootstrap_df = list() 
+
+for(i in 1:25){
+  
+  list = sample(1:nrow(kidney_data), replace = TRUE)
+  
+  bootstrap_df[[i]] = lowess(x=kidney_data[list,]$age,y=kidney_data[list,]$tot,f=1/3)$y
+  
+}
+
+
+kidney_data_new = data.frame(kidney_data,lm = lm_result$fitted.values)
+
+for(i in 1:length(bootstrap_df)){
+  
+  temp_data = bootstrap_df[[i]]
+  kidney_data_new = data.frame(kidney_data_new,i = temp_data)
+}
+
+highchart() %>%
+  hc_add_series(kidney_data_new, "scatter", hcaes(x=age,y=tot),showInLegend = FALSE) %>% 
+  #hc_add_series(kidney_data_new, "line", hcaes(x = age, y = lm),showInLegend = FALSE) %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.1),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.2),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.3),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.4),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.5),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.6),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.7),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.8),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.9),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.10),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.11),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.12),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.13),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.14),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.15),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.16),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.17),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.18),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.19),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.20),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.21),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.22),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.23),showInLegend = FALSE)  %>%
+  hc_add_series(kidney_data_new, "line", hcaes(x = age, y = i.24),showInLegend = FALSE) 
+```
+
+# 1-2.가설검정 {.tabset .tabset-fade .tabset-pills}
+
+## 백별형 환자 그룹의 평균
+
+백혈병 환자 72명중 **급성 림프구성 백혈병(ALL)** 47명, **급성 골수성 백혈병(AML)** 25명의 평균은 아래와 같습니다.
+
+$$
+AML 평균 = 0.752\\
+ALL 평균 = 0.950
+$$
+
+## ALL 그룹 히스토그램 
+
+```{r, echo = FALSE, eval = TRUE}
+hist(ALL, col = 'lightblue', xlim = c(0.2,1.6), breaks = 11, xlab = "ALL", main = "ALL: Gene 136", ylim = c(0,10))
+```
+
+## AML 그룹 히스토그램
+
+```{r, echo = FALSE, eval = TRUE}
+hist(AML, col = 'lightblue', xlim = c(0.2,1.6), breaks = 11, xlab = "AML", main = "AML: Gene 136", ylim = c(0,10))
+```
+
+## T.test 결과
+
+두집단의 평균차이는 정말 진정한 차이일지를 확인하기 위하여, 2-표본 t-통계량을 사용합니다. 
+H0 : 두집단의 평균차이가 없다.
+H1 : 두집단의 평균차이가 있다.
+
+
+
+```{r, echo = FALSE, eval = TRUE}
+t.test(AML,ALL, var.equal = FALSE)
+```
+
+
+## T통계량 히스토그램 
+
+
+
+```{r, echo=FALSE, eval =TRUE}
+
+n = nrow(leukemia_big)
+AMLindx <- grep("AML",names(leukemia_big))
+ALLindx <- grep("ALL",names(leukemia_big))
+genes = seq_len(nrow(leukemia_big))
+t_list = numeric(nrow(leukemia_big))
+for (gene in genes) {
+  x1 <- leukemia_big[gene, ALLindx] %>% unlist %>% unname
+  x2 <- leukemia_big[gene, AMLindx] %>% unlist %>% unname
+  t_list[gene] <- t.test(x = x1, y = x2, var.equal = TRUE)$statistic
+}
+
+
+hist(t_list, col = 'green', xlim = c(-10,10), breaks = 75, xlab = "t statistics", ylab = "Frequency")
+
+
+```
+
