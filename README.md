@@ -15,7 +15,7 @@ Statistical-Inference Study Part1
 ## 참고자료
 
 * 1. https://github.com/optixlab/CASI
-* 2. [Python code for Computer Age Statistical Inferen](https://github.com/jrfiedler/CASI_Python)
+* 2. [Python code for Computer Age Statistical Inference](https://github.com/jrfiedler/CASI_Python)
 
 ## Part1 커리큘럼
 |요일   |주제   |발표자   |발표자료   |비고|
