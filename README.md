@@ -24,7 +24,7 @@ Statistical-Inference Study Part1
 ||2. 빈도주의 추론|이상열|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study1/2st.pdf)|
 |2019.07.10(수)|3. 베이즈 추론|장현준|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study2/ch3.%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20%EC%B6%94%EB%A1%A0.pptx)||
 ||4. 피셔 추론과 최대우도 추정|류지승|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study2/ch4.%20%ED%94%BC%EC%85%94%20%EC%B6%94%EB%A1%A0%EA%B3%BC%20%EC%B5%9C%EB%8C%80%20%EC%9A%B0%EB%8F%84%20%EC%B6%94%EC%A0%95.pdf)|
-|2019.07.17(수)|10. 잭나이프와 부트스트랩|이상열|||
+|2019.07.17(수)|10. 잭나이프와 부트스트랩|이상열||[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study3/10st.pdf)|
 ||7. 제임스-스타인 추정과 리지 회귀|천성우||
 |2019.07.24(수)|15. 대규모 가설 검정과 거짓 발견율|유동건|||
 ||8. 일반화된 선형 모델과 회귀 트리|정보라||
