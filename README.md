@@ -27,7 +27,7 @@ Statistical-Inference Study Part1
 |2019.07.17(수)|10. 잭나이프와 부트스트랩|이상열|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study3/10st.pdf)||
 ||7. 제임스-스타인 추정과 리지 회귀|천성우|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study3/CASI_chap_7.pdf)|
 |2019.07.24(수)|15. 대규모 가설 검정과 거짓 발견율|유동건|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study4/ch15_large_scale_testing.pdf)||
-||8. 일반화된 선형 모델과 회귀 트리|정보라||
+||8. 일반화된 선형 모델과 회귀 트리|정보라|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study4/ch8_Generalized_LinearModels_RegressionTrees.pdf)|
 |2019.07.31(수)|9. 생존 분석과 EM 알고리즘|박은령|||
 ||21. 경험적 베이즈 추정 전략|신재혁||
 ||17. 랜덤 포레스트와 부스팅(1)|배영민||
