@@ -30,7 +30,7 @@ Statistical-Inference Study Part1
 ||8. 일반화된 선형 모델과 회귀 트리|정보라|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study4/ch8_Generalized_LinearModels_RegressionTrees.pdf)|
 |2019.07.31(수)|9. 생존 분석과 EM 알고리즘|박은령|||
 ||21. 경험적 베이즈 추정 전략|신재혁||
-||17. 랜덤 포레스트와 부스팅(1)|배영민||
+||17. 랜덤 포레스트와 부스팅(1)|이상열||
 |2019.08.07(수)|방학||||
 |2019.08.14(수)|5. 모수적 모델과 지수 패밀리|신현석|||
 ||19. 서포트 벡터 머신과 커널 기법|김지원||
