@@ -31,7 +31,7 @@ Statistical-Inference Study Part1
 |2019.07.31(수)|9. 생존 분석과 EM 알고리즘|박은령|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study5/CASI_Chapter_9.pdf)||
 ||21. 경험적 베이즈 추정 전략|신재혁|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study5/CASI_Chapter_21.pdf)|
 |2019.08.07(수)|방학||||
-|2019.08.14(수)|5. 모수적 모델과 지수 패밀리|신현석|||
+|2019.08.14(수)|5. 모수적 모델과 지수 패밀리|신현석|[발표자료](https://github.com/KaggleBreak/Statistical-Inference/blob/master/part1/study6/CASI_Chapter_5.pdf)||
 ||19. 서포트 벡터 머신과 커널 기법|김지원||
 |2019.08.21(수)|17. 랜덤 포레스트와 부스팅|이상열|||
 ||TBD|||
